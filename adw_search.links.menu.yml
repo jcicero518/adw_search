@@ -1,0 +1,6 @@
+adw_search.sitemap_xml_config:
+  title: 'Edit Sitemap XML Settings'
+  description: 'Edit settings involved in the generation of the sitemap.xml file'
+  parent: system.admin_config_search
+  route_name: adw_search.sitemap_xml_config
+  weight: 100

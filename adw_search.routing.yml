@@ -1,0 +1,15 @@
+adw_search.sitemap_xml_config:
+  path: '/admin/config/edit-sitemap-xml'
+  defaults:
+    _form: '\Drupal\adw_search\Form\SitemapXmlConfig'
+    _title: 'Edit Sitemap XML Configuration'
+  requirements:
+    _permission: 'configure sitemapxml'
+
+adw_search.sitemap_xml:
+  path: '/sitemap.xml'
+  defaults:
+    _controller: '\Drupal\adw_search\Controller\SitemapXmlController::content'
+    _title: 'sitemap.xml'
+  requirements:
+    _permission: 'access content'

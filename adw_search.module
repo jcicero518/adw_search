@@ -1,0 +1,63 @@
+<?php
+
+use Drupal\Core\Template\Attribute;
+use Drupal\Core\Render\Element;
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_preprocess().
+ */
+function adw_search_preprocess(&$variables, $hook) {
+
+}
+ /**
+ * Implements hook_preprocess_sitemap().
+ */
+function adw_search_preprocess_sitemap(&$variables) {
+	//yeah, it's a string replace and strip_tags, but the sitemap module didn't put that part in a theme function
+	if(isset($variables['sitemap_items']['front']['content']['#markup'])){
+		$variables['sitemap_items']['front']['content']['#markup'] = strip_tags(str_replace('Front page of ','',$variables['sitemap_items']['front']['content']['#markup']),'<a>');
+	}
+}
+
+ /**
+ * Implements hook_entity_view_alter().
+ */
+function adw_search_entity_view_alter(&$build, $entity, $display) {
+
+	if(isset($build['#attached']['html_head_link'])) {
+
+		//define the rel attributes of the link tags to remove
+		$headLinksToRemove = array(
+			'shortlink',
+			'delete-form',
+			'edit-form',
+			'version-history',
+			'revision'
+		);
+
+		//canonical is not always set so we'll record where we found it, or leave as -1
+		$canonicalHeadLinkIndex = -1;
+
+		//loop over link tags in the head
+		foreach($build['#attached']['html_head_link'] as $headLinkIndex => $headLink){
+			//remove the link tags that matched
+			if(isset($headLink[0]['rel']) && in_array($headLink[0]['rel'],$headLinksToRemove)){
+				unset($build['#attached']['html_head_link'][$headLinkIndex]);
+			}
+			//fix canonical
+			elseif($headLink[0]['rel'] == 'canonical'){
+				global $base_url;
+				$build['#attached']['html_head_link'][$headLinkIndex][0]['href'] = $base_url.\Drupal::request()->getRequestUri();
+				$canonicalHeadLinkIndex = $headLinkIndex;
+			}
+		}
+
+		//if there wasn't a canonical link already then make one
+		if($canonicalHeadLinkIndex === -1){
+			global $base_url;
+			$build['#attached']['html_head_link'][] = array(array('rel'=>'canonical','href'=>$base_url.\Drupal::request()->getRequestUri()),TRUE);
+		}
+
+	}
+}

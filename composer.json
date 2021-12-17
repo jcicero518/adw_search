@@ -1,0 +1,7 @@
+{
+    "name": "drupal/adw_search",
+    "description": "Sitemap XML",
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "require": {}
+}

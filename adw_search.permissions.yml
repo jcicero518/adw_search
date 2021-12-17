@@ -1,0 +1,4 @@
+configure sitemapxml:
+  title: 'Edit settings for sitemap.xml'
+  description: 'Allow user to change configuration for sitemap.xml generation.'
+  restrict access: FALSE

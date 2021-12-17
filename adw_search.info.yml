@@ -1,0 +1,8 @@
+name: Adworkshop Search Sitemap
+description: Perform common search tasks.
+package: Custom
+configure: adw_search.settings
+
+type: module
+version: '8.x-2.0'
+core: '8.x'
